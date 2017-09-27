@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Superadmins</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Name</th>
+      <th>Password</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @superadmins.each do |superadmin| %>
+      <tr>
+        <td><%= superadmin.email %></td>
+        <td><%= superadmin.name %></td>
+        <td><%= superadmin.password %></td>
+        <td><%= link_to 'Show', superadmin %></td>
+        <td><%= link_to 'Edit', edit_superadmin_path(superadmin) %></td>
+        <td><%= link_to 'Destroy', superadmin, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Superadmin', new_superadmin_path %>

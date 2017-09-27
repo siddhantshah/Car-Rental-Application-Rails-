@@ -1,0 +1,52 @@
+<%= form_with(model: rental, local: true) do |form| %>
+  <% if rental.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(rental.errors.count, "error") %> prohibited this rental from being saved:</h2>
+
+      <ul>
+      <% rental.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.text_field :email, id: :rental_email %>
+  </div>
+
+  <div class="field">
+    <%= form.label :license %>
+    <%= form.text_field :license, id: :rental_license %>
+  </div>
+
+  <div class="field">
+    <%= form.label :checkout %>
+    <%= form.datetime_select :checkout, id: :rental_checkout %>
+  </div>
+
+  <div class="field">
+    <%= form.label :return %>
+    <%= form.datetime_select :return, id: :rental_return %>
+  </div>
+
+  <div class="field">
+    <%= form.label :hours %>
+    <%= form.number_field :hours, id: :rental_hours %>
+  </div>
+
+  <div class="field">
+    <%= form.label :rental_charge %>
+    <%= form.text_field :rental_charge, id: :rental_rental_charge %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.text_field :status, id: :rental_status %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

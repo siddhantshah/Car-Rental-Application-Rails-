@@ -1,0 +1,35 @@
+<h1> EDIT PROFILE
+<br> Checkout
+<br> checkout history</h1>
+
+<h1>MY PROFILE</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>Email</th>
+    <th>Name</th>
+    <th>Password</th>
+    <th>Rental charge</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% customer = current_customer %>
+      <tr>
+        <td><%= customer.email %></td>
+        <td><%= customer.name %></td>
+        <td><%= customer.password %></td>
+        <td><%= customer.rental_charge %></td>
+      </tr>
+
+  </tbody>
+</table>
+<%= button_to 'Search' , :action => 'search_cars', :controller =>'customers'%>
+<br>
+<%= button_to 'Checkout', :action => 'checkout', :controller => 'rentals' %>
+<%= button_to 'Checkout History', :action => 'checkout_history', :controller => 'rentals' %>
+<%= link_to 'Edit', edit_customer_path(@customer) %>
+<!--<= button_to 'Edit Profile', :action => edit_customer_path(@customer), :controller => "customers" %>-->
+<br>
+<br>

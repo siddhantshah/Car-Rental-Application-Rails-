@@ -1,0 +1,33 @@
+<%= form_tag list_cars_url, :method => 'post' do %>
+    <h3> SEARCH FOR CARS</h3>
+    <br>
+    <div>
+      <table style="display: inline-block">
+        <tbody>
+        <tr>
+          <td align="left">Location</td>
+          <td><%= text_field_tag :location, params[:location] %></td>
+        </tr>
+        <tr>
+          <td align="left">Model</td>
+          <td><%= text_field_tag :model, params[:model] %></td>
+        </tr>
+        <tr>
+          <td align="left">Manufacturer</td>
+          <td><%= text_field_tag :manufacturer, params[:manufacturer] %></td>
+        </tr>
+        <tr>
+          <td align="left">Style</td>
+          <td><%= text_field_tag :style, params[:style] %></td>
+        </tr>
+        <tr>
+          <td align="left">Status</td>
+          <td><%= select_tag :status, options_for_select([ "Available", "Checked out" ], ""),  include_blank: true %></td>
+        </tr>
+        </tbody>
+        </table>
+      <br>
+      <br>
+      <%= button_to "Search", :action => "list_cars", :controller =>"cars" %>
+    </div>
+<% end %>

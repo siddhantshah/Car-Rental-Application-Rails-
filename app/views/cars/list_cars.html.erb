@@ -1,0 +1,47 @@
+<h3>SEARCH RESULTS</h3>
+<br>
+<table>
+  <thead>
+  <tr>
+    <th>License</th>
+    <th>Manufacturer</th>
+    <th>Model</th>
+    <th>Rate</th>
+    <th>Style</th>
+    <th>Location</th>
+    <th>Status</th>
+    <th>View Car</th>
+    <!--<th>Reserve Car</th>-->
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @cars.each do |car| %>
+      <tr>
+        <td><%= car.license %></td>
+        <td><%= car.manufacturer %></td>
+        <td><%= car.model %></td>
+        <td><%= car.rate %></td>
+        <td><%= car.style %></td>
+        <td><%= car.location %></td>
+        <td><%= car.status %></td>
+        <td><%= link_to 'Show', car %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+<br><br>
+<%= button_to "Back to Search", '/search_cars' %>
+
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+  }
+</style>

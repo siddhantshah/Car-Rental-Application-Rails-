@@ -1,0 +1,24 @@
+<h3>Reserve your car</h3>
+<h3> Car Details</h3>
+
+<p>
+  <strong>Car reserved under:</strong>
+  <%=params[:emai]%>
+</p>
+<p>
+  <strong>License:</strong>
+   <%= params[:license] %>
+</p>
+
+<p>
+  <strong>Checkout Date:</strong>
+  <%= params[:checkout]%>
+</p>
+
+<p>
+  <strong>Return Time:</strong>
+  <%= params[:return]%>
+</p>
+
+<!--<= button_to "Reserve", '/check_reserve_car', :method => 'get',params: {license: @car[0].license} %>-->
+<!--<= button_to "Confirm Reservation", :action => "reservation", :controller =>"rentals", :license => params[:license] %>-->

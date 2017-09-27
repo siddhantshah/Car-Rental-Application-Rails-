@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Car Rentals</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+  <body  align="center" style="margin: 0px">
+
+  <div style="background-color: #F44336; height: 100px">
+    <h1 style="margin: 0px; color:#fff; top:40%; position: relative">CAR RENTALS</h1>
+  </div>
+  <br>
+
+    <%= yield %>
+  </body>
+</html>

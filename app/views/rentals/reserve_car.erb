@@ -1,0 +1,53 @@
+<%= form_tag '/reserve_in_db', :method => 'post' do %>
+<h3>Reserve your car</h3>
+<h3> Car Details</h3>
+<p>
+  <strong>License:</strong>
+  <%= @car[0].license %>
+</p>
+
+<p>
+  <strong>Manufacturer:</strong>
+   <%= @car[0].manufacturer %>
+</p>
+
+<p>
+  <strong>Model:</strong>
+  <%= @car[0].model %>
+</p>
+
+<p>
+  <strong>Rate:</strong>
+  <%= @car[0].rate %>
+</p>
+
+<p>
+  <strong>Style:</strong>
+  <%= @car[0].style %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @car[0].location %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @car[0].status %>
+</p>
+
+<p>
+  <strong>Checkout:</strong>
+  <%= datetime_field_tag :checkout %>
+</p>
+
+<p>
+  <strong>Return:</strong>
+  <%= datetime_field_tag :return %>
+</p>
+
+<%= hidden_field_tag :license, params[:license]%>
+<%= submit_tag "Reserve" %>
+<% end %>
+ <!--<= button_to "Reserve", '/car_reserved', :method => 'post'%>-->
+ <!--<= button_to "Reserve", :action => "car_reserved", :controller =>"rentals", @car=> Car.where(:license => params[:license]) %>-->
