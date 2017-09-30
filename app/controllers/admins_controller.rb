@@ -61,6 +61,10 @@ class AdminsController < ApplicationController
     end
   end
 
+  def profile
+    @admin = Admin.where(:id => session[:admin_id])
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_admin

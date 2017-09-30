@@ -34,9 +34,23 @@
   <strong>Status:</strong>
   <%= @car.status %>
 </p>
+<% if (session[:customer_id].nil? || !session[:admin].nil? || !session[:superadmin].nil?) and !@car.status.eql?('Available') then %>
+<p>
+  <strong>Car Booked By:</strong>
+  <%= Rental.where(:license => @car.license).last.email%>
+</p>
+<% end %>
 
-<%= link_to 'Edit', edit_car_path(@car) %> |
-<%= link_to 'Back', cars_path %>
+<%= link_to 'Edit', edit_car_path(@car) %>
 
+<% if session[:customer_id].nil? || !session[:admin].nil? || !session[:superadmin].nil? then %>
+  <%= link_to 'Back to index', cars_path %>
+<% end %>
+
+<% if @car.status.to_s.eql?("Available") then%>
 <td> <%= button_to "Reserve", '/check_reserve_car', :method => 'get',params: {license: @car.license} %> </td>
+<% end %>
 
+<% if session[:customer_id].nil? || !session[:admin].nil? || !session[:superadmin].nil? then %>
+<%= button_to "Checkout History", '/checkout_history', :method => 'post',params: {license: @car.license} %>
+<% end %>

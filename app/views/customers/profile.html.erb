@@ -21,11 +21,11 @@
 
   </tbody>
 </table>
-<%= button_to 'Search' , :action => 'search_cars', :controller =>'customers'%>
+<%= button_to 'Search' , :action => 'search_cars', :controller =>'cars'%>
 <br>
 <%= button_to 'Checkout', :action => 'checkout', :controller => 'rentals' %>
-<%= button_to 'Checkout History', :action => 'checkout_history', :controller => 'rentals' %>
-<%= link_to 'Edit', edit_customer_path(@customer) %>
+<%= button_to 'Checkout History', :action => 'checkout_history', :controller => 'rentals', :customer => customer.email %>
+<%= link_to 'Edit', edit_customer_path(customer) %>
 <!--<= button_to 'Edit Profile', :action => edit_customer_path(@customer), :controller => "customers" %>-->
 <br>
 <br>

@@ -1,0 +1,27 @@
+<h1>MY PROFILE</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>Email</th>
+    <th>Name</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% superadmin = current_superadmin %>
+      <tr>
+        <td><%= superadmin.email %></td>
+        <td><%= superadmin.name %></td>
+      </tr>
+
+  </tbody>
+</table>
+<br>
+<%= link_to 'Manage Admins', admins_path %> <br>
+<%= link_to 'Manage Customers', customers_path %> <br>
+<%= link_to 'Manage Cars', cars_path %> <br>
+<%= link_to 'Manage Superadmins', superadmins_path%>
+<%= link_to 'Edit', edit_superadmin_path(superadmin) %>
+<br>
+<br>

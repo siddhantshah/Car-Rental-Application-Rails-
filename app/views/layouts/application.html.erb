@@ -10,7 +10,13 @@
   <body  align="center" style="margin: 0px">
 
   <div style="background-color: #F44336; height: 100px">
-    <h1 style="margin: 0px; color:#fff; top:40%; position: relative">CAR RENTALS</h1>
+    <div style="margin: 0px; color:#fff; top:40%; position: relative">
+    <h1 >CAR RENTALS</h1>
+    <br>
+      <% if current_customer || current_admin || current_superadmin then%>
+        <%= button_to "Sign Out", '/destroy_session', :method => :post %>
+      <% end %>
+      </div>
   </div>
   <br>
 

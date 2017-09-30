@@ -69,7 +69,7 @@ class RentalsController < ApplicationController
     elsif  @previous_rental.status.equal?('finish') then
       redirect_to :controller => "rentals", :action => "reserve_car", :license => params[:license]
     else
-      redirect_to '/show_profile'
+      redirect_to '/customer_profile'
     end
   end
 
@@ -92,7 +92,11 @@ class RentalsController < ApplicationController
     @rental.hours= @hours
     @rental.rental_charge= @rental_charge
     @rental.status= 'Reserved'
-    if @rental.save!
+    @car = Car.where(:license => @license)[0]
+    @car.status= 'Reserved'
+    @customer = Customer.where(:email => @email)[0]
+    @customer.rental_charge= @rental_charge
+    if @rental.save! and @car.save! and @customer.save!
       redirect_to :controller => "rentals", :action => "car_reserved", :email => @email, :license => @license,
                   :checkout => @checkout, :return => @return
     else
@@ -107,10 +111,16 @@ class RentalsController < ApplicationController
   def checkout
     @rental = Rental.where(:email => current_customer.email).last!
     Rental.update(@rental.id, :status => "progress")
+    @car = Car.where(:license => @rental.license)[0];
+    Car.update(@car.id, :status => "Checked out")
   end
 
   def checkout_history
-    @rentals = Rental.where(:email => current_customer.email)
+    if !params[:customer].nil?
+      @rentals = Rental.where(:email => params[:customer])
+    else
+      @rentals = Rental.where(:license => params[:license])
+    end
   end
 
   def notify

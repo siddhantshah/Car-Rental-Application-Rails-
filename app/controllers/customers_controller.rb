@@ -62,11 +62,8 @@ class CustomersController < ApplicationController
     end
   end
 
-  def search_cars
-  end
-
-  def show_profile
-    @customer = Customer.where(:id => 1)
+  def profile
+    @customer = Customer.where(:id => session[:customer_id])
   end
 
   private

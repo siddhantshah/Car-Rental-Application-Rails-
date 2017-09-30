@@ -15,10 +15,9 @@
   <%= @customer.password %>
 </p>
 
-<p>
-  <strong>Rental charge:</strong>
-  <%= @customer.rental_charge %>
-</p>
-
 <%= link_to 'Edit', edit_customer_path(@customer) %>
 <%= link_to 'Back', customers_path %>
+
+<% if !current_customer || current_admin || current_superadmin then %>
+<%= button_to 'Checkout History', :action => 'checkout_history', :controller => 'rentals', :customer => @customer.email %>
+<% end %>
