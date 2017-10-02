@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   post '/checkout' => 'rentals#checkout'
   post '/checkout_history' => 'rentals#checkout_history'
 
-  # SESSION
+  # Session
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
   get '/logout' => 'sessions#destroy'
@@ -39,11 +39,8 @@ Rails.application.routes.draw do
   # Profiles
   post '/customer_profile' => 'customers#profile'
   get '/customer_profile' => 'customers#profile'
-  post '/amdin_profile' => 'admins#profile'
+  post '/admin_profile' => 'admins#profile'
   get '/admin_profile' => 'admins#profile'
   post '/superadmin_profile' => 'superadmins#profile'
   get '/superadmin_profile' => 'superadmins#profile'
-
-
-
 end

@@ -5,6 +5,6 @@
     Email: <%= text_field_tag :email %>
     Password: <%= password_field_tag :password %>
     <%= submit_tag "Submit" %>
-    <%= link_to 'New Customer', new_customer_path %>
+    <%= button_to 'New Customer', new_customer_path, :method => :get %>
 <% end %>
 

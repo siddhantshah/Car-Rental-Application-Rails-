@@ -2,5 +2,7 @@
 
 <%= render 'form', customer: @customer %>
 
-<%= link_to 'Show', @customer %> |
-<%= link_to 'Back', customers_path %>
+<%= link_to 'Show', @customer %>
+<%if !current_customer and (current_admin or current_superadmin) then%>
+  <%= link_to 'Back', customers_path %>
+<% end %>

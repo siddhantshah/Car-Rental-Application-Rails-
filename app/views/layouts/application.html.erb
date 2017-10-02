@@ -7,16 +7,29 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-  <body  align="center" style="margin: 0px">
-
-  <div style="background-color: #F44336; height: 100px">
+  <body align="center" width="100%" style="margin: 0px">
+  <div style="background-color: #F44336; height: 150px">
     <div style="margin: 0px; color:#fff; top:40%; position: relative">
-    <h1 >CAR RENTALS</h1>
-    <br>
+      <h1 style="padding: 8px">CAR RENTALS</h1>
       <% if current_customer || current_admin || current_superadmin then%>
-        <%= button_to "Sign Out", '/destroy_session', :method => :post %>
+        <div style="display: inline-block; position:absolute; top:0; right:0; float: right">
+          <table style="border:0px">
+              <td>
+              <%= button_to "Sign Out", '/destroy_session', :method => :post %>
+                    </td>
+              <td>
+                <% if current_customer %>
+                   <%= button_to "My Profile", '/customer_profile', :method => :post %>
+                <% elsif current_admin %>
+                   <%= button_to "My Profile", '/admin_profile', :method => :post %>
+                <% else %>
+                   <%= button_to "My Profile", '/superadmin_profile', :method => :post %>
+                <% end %>
+              </td>
+          </table>
       <% end %>
       </div>
+    </div>
   </div>
   <br>
 
@@ -27,7 +40,8 @@
     table {
       font-family: arial, sans-serif;
       border-collapse: collapse;
-      width: 100%;
+      width: auto;
+      margin: 0 auto;
     }
     td, th {
       border: 1px solid #dddddd;

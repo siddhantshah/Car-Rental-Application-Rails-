@@ -1,5 +1,12 @@
 class SessionsController < ApplicationController
   def new
+    if current_superadmin
+      redirect_to '/superadmin_profile'
+    elsif current_admin
+      redirect_to '/admin_profile'
+    elsif current_customer
+      redirect_to '/customer_profile'
+    end
   end
 
   def create

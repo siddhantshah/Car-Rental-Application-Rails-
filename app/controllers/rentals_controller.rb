@@ -110,7 +110,7 @@ class RentalsController < ApplicationController
 
   def checkout
     @rental = Rental.where(:email => current_customer.email).last!
-    Rental.update(@rental.id, :status => "progress")
+    Rental.update(@rental.id, :status => "Checked out")
     @car = Car.where(:license => @rental.license)[0];
     Car.update(@car.id, :status => "Checked out")
   end

@@ -5,7 +5,6 @@
   <tr>
     <th>Email</th>
     <th>Name</th>
-    <th>Password</th>
     <th>Rental charge</th>
   </tr>
   </thead>
@@ -15,17 +14,19 @@
       <tr>
         <td><%= customer.email %></td>
         <td><%= customer.name %></td>
-        <td><%= customer.password %></td>
         <td><%= customer.rental_charge %></td>
       </tr>
-
   </tbody>
 </table>
-<%= button_to 'Search' , :action => 'search_cars', :controller =>'cars'%>
 <br>
-<%= button_to 'Checkout', :action => 'checkout', :controller => 'rentals' %>
-<%= button_to 'Checkout History', :action => 'checkout_history', :controller => 'rentals', :customer => customer.email %>
-<%= link_to 'Edit', edit_customer_path(customer) %>
-<!--<= button_to 'Edit Profile', :action => edit_customer_path(@customer), :controller => "customers" %>-->
+<table>
+  <td><%= button_to 'Search for a car' , :action => 'search_cars', :controller =>'cars'%></td>
+  <!--< @current_rental = Rental.where(:email => customer.email).last%>-->
+  <td><%= button_to 'Checkout', :action => 'checkout', :controller => 'rentals' %></td>
+  <!--<td><= button_to 'Cancel', :action => 'cancel', :controller => 'rentals' %></td>-->
+  <!--<td><= button_to 'Return', :action => 'return', :controller => 'rentals' %></td>-->
+  <td><%= button_to 'Checkout History', :action => 'checkout_history', :controller => 'rentals', :customer => customer.email %></td>
+  <td><%= button_to 'Edit Profile', edit_customer_path(customer), :method => :get %></td>
+</table>
 <br>
 <br>

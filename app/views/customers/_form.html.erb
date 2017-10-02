@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= form.label :email %>
-    <%= form.text_field :email, id: :customer_email %>
+    <%= form.email_field :email, id: :customer_email %>
   </div>
 
   <div class="field">
@@ -24,11 +24,6 @@
   <div class="field">
     <%= form.label :password %>
     <%= form.text_field :password, id: :customer_password %>
-  </div>
-
-  <div class="field">
-    <%= form.label :rental_charge %>
-    <%= form.number_field :rental_charge, id: :customer_rental_charge %>
   </div>
 
   <div class="actions">

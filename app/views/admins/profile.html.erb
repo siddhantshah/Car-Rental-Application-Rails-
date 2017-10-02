@@ -18,9 +18,11 @@
   </tbody>
 </table>
 <br>
-<%= link_to 'Manage Admins', admins_path %> <br>
-<%= link_to 'Manage Customers', customers_path %> <br>
-<%= link_to 'Manage Cars', cars_path %> <br>
-<%= link_to 'Edit', edit_admin_path(admin) %>
+<table>
+  <td><%= button_to 'Manage Admins', admins_path, :method => :get %></td>
+  <td><%= button_to 'Manage Customers', customers_path, :method => :get %></td>
+  <td><%= button_to 'Manage Cars', cars_path, :method => :get %></td>
+  <td><%= button_to 'Edit', edit_admin_path(admin), :method => :get %></td>
+</table>
 <br>
 <br>
