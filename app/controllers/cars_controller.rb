@@ -85,6 +85,17 @@ class CarsController < ApplicationController
     end
   end
 
+  # def suggestion
+  #   @suggestion = Suggestion.new
+  #   @suggestion.location = params[:location]
+  #   @suggestion.model = params[:model]
+  #   @suggestion.manufacturer = params[:manufacturer]
+  #   @suggestion.style = params[:style]
+  #   if @suggestion.save!
+  #     redirect_to '/customer_profile'
+  #   end
+  # end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_car

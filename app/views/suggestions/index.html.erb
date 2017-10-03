@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Suggestions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Location</th>
+      <th>Model</th>
+      <th>Manufacturer</th>
+      <th>Style</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @suggestions.each do |suggestion| %>
+      <tr>
+        <td><%= suggestion.location %></td>
+        <td><%= suggestion.model %></td>
+        <td><%= suggestion.manufacturer %></td>
+        <td><%= suggestion.style %></td>
+        <td><%= link_to 'Show', suggestion %></td>
+        <td><%= link_to 'Accept', :controller => 'suggestions', :action => 'accept_suggestion', :suggestion_id => suggestion.id, :method => :get%></td>
+        <td><%= link_to 'Reject', suggestion, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Suggestion', new_suggestion_path %>

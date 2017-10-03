@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170925181312) do
+ActiveRecord::Schema.define(version: 20171003011625) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email"
@@ -56,6 +56,13 @@ ActiveRecord::Schema.define(version: 20170925181312) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "notifies", force: :cascade do |t|
+    t.string "email"
+    t.string "license"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "rentals", force: :cascade do |t|
     t.string "email"
     t.string "license"
@@ -64,6 +71,15 @@ ActiveRecord::Schema.define(version: 20170925181312) do
     t.integer "hours"
     t.float "rental_charge"
     t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "suggestions", force: :cascade do |t|
+    t.string "location"
+    t.string "model"
+    t.string "manufacturer"
+    t.string "style"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

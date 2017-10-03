@@ -1,0 +1,8 @@
+<h1>Editing Suggestion</h1>
+
+<%= render 'form', suggestion: @suggestion %>
+
+<%= link_to 'Show', @suggestion %>
+<% if !current_customer and (current_admin or current_superadmin) %>
+<%= link_to 'Back', suggestions_path %>
+<% end %>

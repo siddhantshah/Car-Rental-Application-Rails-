@@ -25,10 +25,10 @@ class CustomersController < ApplicationController
   # POST /customers.json
   def create
     @customer = Customer.new(customer_params)
-
     respond_to do |format|
       if @customer.save
         # session[:customer_id] = @customer.id
+        UserMailer.signup_confirmation(@customer).deliver
         format.html { redirect_to @customer, notice: 'Customer was successfully created.' }
         format.json { render :show, status: :created, location: @customer }
       else
@@ -64,6 +64,15 @@ class CustomersController < ApplicationController
 
   def profile
     @customer = Customer.where(:id => session[:customer_id])
+  end
+
+  def notify_email
+    @customer_id = session[:customer_id]
+    @license = params[:license]
+    @notify = Notify.new
+    @notify.license = @license
+    @notify.email= Customer.where(:id => @customer_id)[0].email
+    @notify.save!
   end
 
   private

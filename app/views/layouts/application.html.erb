@@ -10,6 +10,9 @@
   <body align="center" width="100%" style="margin: 0px">
   <div style="background-color: #F44336; height: 150px">
     <div style="margin: 0px; color:#fff; top:40%; position: relative">
+      <div style="display: inline-block; position:absolute; top:0; left:0; float: left">
+        <%= link_to 'Back', :back %>
+      </div>
       <h1 style="padding: 8px">CAR RENTALS</h1>
       <% if current_customer || current_admin || current_superadmin then%>
         <div style="display: inline-block; position:absolute; top:0; right:0; float: right">

@@ -11,6 +11,9 @@
     <th>Location</th>
     <th>Status</th>
     <th>View Car</th>
+    <% if current_customer %>
+        <th>Notify</th>
+    <% end %>
     <!--<th>Reserve Car</th>-->
   </tr>
   </thead>
@@ -25,7 +28,10 @@
         <td><%= car.style %></td>
         <td><%= car.location %></td>
         <td><%= car.status %></td>
-        <td><%= link_to 'Show', car %></td>
+        <td><%= link_to 'Car Details', car %></td>
+        <% if current_customer && car.status != 'Available' %>
+            <td><%= button_to "Notify", '/notify_email', params: {license: car.license}%></td>
+        <% end %>
       </tr>
   <% end %>
   </tbody>

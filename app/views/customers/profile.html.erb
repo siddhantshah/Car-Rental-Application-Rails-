@@ -1,5 +1,4 @@
 <h1>MY PROFILE</h1>
-
 <table>
   <thead>
   <tr>
@@ -19,14 +18,25 @@
   </tbody>
 </table>
 <br>
+
 <table>
   <td><%= button_to 'Search for a car' , :action => 'search_cars', :controller =>'cars'%></td>
-  <!--< @current_rental = Rental.where(:email => customer.email).last%>-->
-  <td><%= button_to 'Checkout', :action => 'checkout', :controller => 'rentals' %></td>
-  <!--<td><= button_to 'Cancel', :action => 'cancel', :controller => 'rentals' %></td>-->
-  <!--<td><= button_to 'Return', :action => 'return', :controller => 'rentals' %></td>-->
+  <% @current_rental = Rental.where(:email => customer.email).last%>
+  <% if !@current_rental.nil? then %>
+      <% if @current_rental.status.eql?("Reserved") then %>
+        <td><%= button_to 'Checkout', :action => 'checkout', :controller => 'rentals' %></td>
+          <% redirect_to '/customer_profile'%>
+        <!--<td><= button_to 'Cancel', :action => 'cancel', :controller => 'rentals' %></td>-->
+      <% elsif @current_rental.status.eql?("Checked out") then%>
+          <td><%= button_to 'Return', :action => 'return', :controller => 'rentals' %></td>
+          <% redirect_to '/customer_profile'%>
+      <% end %>
+  <% end %>
   <td><%= button_to 'Checkout History', :action => 'checkout_history', :controller => 'rentals', :customer => customer.email %></td>
   <td><%= button_to 'Edit Profile', edit_customer_path(customer), :method => :get %></td>
+  <td><%= button_to 'Suggest Car', new_suggestion_path, :method => :get %></td>
+
 </table>
+
 <br>
 <br>

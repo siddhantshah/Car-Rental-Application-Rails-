@@ -64,9 +64,8 @@ class RentalsController < ApplicationController
   def check_reserve_car
     @customer = current_customer
     @previous_rental = Rental.where(:email => @customer.email).last
-    if @previous_rental.nil? then
-       redirect_to :controller => "rentals", :action => "reserve_car", :license => params[:license]
-    elsif  @previous_rental.status.equal?('finish') then
+    puts @previous_rental
+    if @previous_rental.nil? or @previous_rental.status.eql?('Returned') then
       redirect_to :controller => "rentals", :action => "reserve_car", :license => params[:license]
     else
       redirect_to '/customer_profile'
@@ -127,6 +126,24 @@ class RentalsController < ApplicationController
     @rental = Rental.where(:email => current_customer.email).last!
     if  @rental.status == "progress"
       redirect_to '/signup'
+    end
+  end
+
+  def return
+    if current_customer
+      @license = Rental.where(:email => Customer.where(:id => session[:customer_id])[0].email).last!.license
+      @rental = Rental.where(:email => Customer.where(:id => session[:customer_id])[0].email).last!
+      Rental.update(@rental.id,:status => "Returned")
+      @car = Car.where(:license => @license)[0];
+      Car.update(@car.id, :status => "Available")
+
+      # Nofify users who have subscribed about car availability
+      @emails = Notify.where(:license => @license)
+      @emails.each do |email|
+        UserMailer.notify(email.email,@car).deliver
+        @notify = Notify.find_by_email_and_license(email.email, @car.license)
+        @notify.destroy
+      end
     end
   end
 

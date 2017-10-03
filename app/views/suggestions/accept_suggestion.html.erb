@@ -1,0 +1,40 @@
+<%= form_tag '/accept_in_db', :method => 'post' do %>
+    <%= hidden_field_tag :suggestion_id, @suggestion.id%>
+    <h3>Accept Suggestion</h3>
+    <h3> Car Details</h3>
+    <p>
+      <strong>License:</strong>
+      <%= text_field_tag :license %>
+    </p>
+
+    <p>
+      <strong>Manufacturer:</strong>
+      <%= @suggestion.manufacturer %>
+      <%= hidden_field_tag :manufacturer, @suggestion.manufacturer%>
+    </p>
+
+    <p>
+      <strong>Model:</strong>
+      <%= @suggestion.model %>
+      <%= hidden_field_tag :model, @suggestion.model%>
+    </p>
+
+    <p>
+      <strong>Rate:</strong>
+      <%= text_field_tag :rate %>
+    </p>
+
+    <p>
+      <strong>Style:</strong>
+      <%= @suggestion.style %>
+      <%= hidden_field_tag :style, @suggestion.style%>
+    </p>
+
+    <p>
+      <strong>Location:</strong>
+      <%= @suggestion.location %>
+      <%= hidden_field_tag :location, @suggestion.location%>
+    </p>
+
+    <%= submit_tag "Accept" %>
+<% end %>
