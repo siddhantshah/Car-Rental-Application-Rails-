@@ -34,6 +34,7 @@
   <strong>Status:</strong>
   <%= @rental.status %>
 </p>
-
+<% if session[:customer_id].nil? || !session[:admin].nil? || !session[:superadmin].nil? then %>
 <%= link_to 'Edit', edit_rental_path(@rental) %> |
+<% end %>
 <%= link_to 'Back', rentals_path %>

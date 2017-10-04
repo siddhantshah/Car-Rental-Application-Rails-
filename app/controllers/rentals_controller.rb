@@ -102,7 +102,7 @@ class RentalsController < ApplicationController
     else
       redirect_to '/signup'
     end
-  end
+    end
 
   def car_reserved
     @car = Car.where(:license => params[:license])

@@ -1,5 +1,7 @@
 <h1>MY PROFILE</h1>
-
+<% if flash[:alert]%>
+ <p id="notice"><%= flash[:alert]%></p>
+<%end%>
 <table>
   <thead>
   <tr>

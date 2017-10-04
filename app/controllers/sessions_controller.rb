@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+
   def new
   end
 
@@ -19,11 +20,11 @@ class SessionsController < ApplicationController
     elsif Customer.find_by_email_and_password(params[:email],params[:password])
       @customer = Customer.find_by_email_and_password(params[:email],params[:password])
       session[:customer_id] = @customer.id
-      redirect_to '/customer_profile'
+      redirect_to '/customer_profile', alert: "Welcome Customer"
 
     else
       # If user's login doesn't work, send them back to the login form.
-      redirect_to '/login'
+      redirect_to '/login', alert: "enter valid credentials"
     end
   end
 

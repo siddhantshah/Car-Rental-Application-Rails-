@@ -40,8 +40,9 @@
   <%= Rental.where(:license => @car.license).last.email%>
 </p>
 <% end %>
-
+<% if (session[:customer_id].nil? || !session[:admin].nil? || !session[:superadmin].nil?) then%>
 <%= link_to 'Edit', edit_car_path(@car) %>
+<%end%>
 
 <% if session[:customer_id].nil? || !session[:admin].nil? || !session[:superadmin].nil? then %>
   <%= link_to 'Back to index', cars_path %>

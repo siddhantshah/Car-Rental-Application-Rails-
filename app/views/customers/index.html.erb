@@ -11,7 +11,7 @@
       <th colspan="3"></th>
     </tr>
   </thead>
-
+  <% if !current_customer || current_admin || current_superadmin then %>
   <tbody>
     <% @customers.each do |customer| %>
       <tr>
@@ -24,6 +24,7 @@
       </tr>
     <% end %>
   </tbody>
+      <% end %>
 </table>
 
 
