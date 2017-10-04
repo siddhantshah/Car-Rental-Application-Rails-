@@ -61,26 +61,26 @@ class CarsController < ApplicationController
     end
   end
 
-  def list_cars
+  def search_cars
     @cars = Car.all
     @location = params[:location]
     @model = params[:model]
     @manufacturer = params[:manufacturer]
     @style = params[:style]
     @status = params[:status]
-    if(!@manufacturer.empty?)
+    if( !@manufacturer.nil? and !@manufacturer.empty?)
       @cars = @cars.where(:manufacturer => @manufacturer)
     end
-    if(!@model.empty?)
+    if( !@model.nil? and !@model.empty?)
       @cars = @cars.where(:model => @model)
     end
-    if(!@location.empty?)
+    if( !@location.nil? and !@location.empty?)
       @cars = @cars.where(:location => @location)
     end
-    if(!@style.empty?)
+    if(!@style.nil? and !@style.empty?)
       @cars = @cars.where(:style => @style)
     end
-    if(!@status.empty?)
+    if(!@style.nil? and !@status.empty?)
       @cars = @cars.where(:status => @status)
     end
   end

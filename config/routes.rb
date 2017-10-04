@@ -10,8 +10,6 @@ Rails.application.routes.draw do
   root 'sessions#new'
 
   # Search cars
-  post '/list_cars' => 'cars#list_cars'
-  get '/list_cars' => 'cars#list_cars'
   get '/search_cars' => 'cars#search_cars'
   post '/search_cars' => 'cars#search_cars'
 

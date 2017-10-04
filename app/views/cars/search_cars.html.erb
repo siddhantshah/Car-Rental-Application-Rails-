@@ -1,33 +1,59 @@
-<%= form_tag list_cars_url, :method => 'post' do %>
+<%= form_tag search_cars_url, :method => 'post' do %>
     <h3> SEARCH FOR CARS</h3>
     <br>
-    <div>
-      <table style="display: inline-block">
-        <tbody>
+    <table display="inline-block">
+      <tbody>
         <tr>
           <td >Location</td>
           <td><%= text_field_tag :location, params[:location] %></td>
-        </tr>
-        <tr>
           <td >Model</td>
           <td><%= text_field_tag :model, params[:model] %></td>
-        </tr>
-        <tr>
           <td >Manufacturer</td>
           <td><%= text_field_tag :manufacturer, params[:manufacturer] %></td>
-        </tr>
-        <tr>
           <td >Style</td>
           <td><%= text_field_tag :style, params[:style] %></td>
-        </tr>
-        <tr>
           <td >Status</td>
           <td><%= select_tag :status, options_for_select([ "Available", "Checked out", "Reserved" ], ""),  include_blank: true %></td>
+          <td><%= button_to "Search", :action => "search_cars", :controller =>"cars" %></td>
         </tr>
-        </tbody>
-        </table>
-      <br>
-      <br>
-      <%= button_to "Search", :action => "list_cars", :controller =>"cars" %>
-    </div>
+      </tbody>
+    </table>
+    <br>
+    <br>
+    <table class="index">
+      <thead>
+      <tr>
+        <th>License</th>
+        <th>Manufacturer</th>
+        <th>Model</th>
+        <th>Rate</th>
+        <th>Style</th>
+        <th>Location</th>
+        <th>Status</th>
+        <th>View Car</th>
+        <% if current_customer %>
+            <th>Notify</th>
+        <% end %>
+        <!--<th>Reserve Car</th>-->
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @cars.each do |car| %>
+          <tr>
+            <td><%= car.license %></td>
+            <td><%= car.manufacturer %></td>
+            <td><%= car.model %></td>
+            <td><%= car.rate %></td>
+            <td><%= car.style %></td>
+            <td><%= car.location %></td>
+            <td><%= car.status %></td>
+            <td><%= link_to 'Car Details', car %></td>
+            <% if current_customer && car.status != 'Available' %>
+                <td><%= button_to "Notify", '/notify_email', params: {license: car.license}%></td>
+            <% end %>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
 <% end %>

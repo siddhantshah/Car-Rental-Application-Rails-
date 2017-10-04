@@ -23,13 +23,13 @@
   <td><%= button_to 'Search for a car' , :action => 'search_cars', :controller =>'cars'%></td>
   <% @current_rental = Rental.where(:email => customer.email).last%>
   <% if !@current_rental.nil? then %>
-      <% if @current_rental.status.eql?("Reserved") then %>
+      <% if @current_rental.status.eql?("Reserved") and Time.now>@current_rental.checkout and Time.now<@current_rental.return then %>
         <td><%= button_to 'Checkout', :action => 'checkout', :controller => 'rentals' %></td>
-          <% redirect_to '/customer_profile'%>
+          <!--< redirect_to '/customer_profile'%>-->
         <!--<td><= button_to 'Cancel', :action => 'cancel', :controller => 'rentals' %></td>-->
-      <% elsif @current_rental.status.eql?("Checked out") then%>
+      <% elsif @current_rental.status.eql?("Checked out") and Time.now<@current_rental.return then%>
           <td><%= button_to 'Return', :action => 'return', :controller => 'rentals' %></td>
-          <% redirect_to '/customer_profile'%>
+          <!--< redirect_to '/customer_profile'%>-->
       <% end %>
   <% end %>
   <td><%= button_to 'Checkout History', :action => 'checkout_history', :controller => 'rentals', :customer => customer.email %></td>
