@@ -28,6 +28,8 @@ class RentalsController < ApplicationController
 
     respond_to do |format|
       if @rental.save
+        time_delay =(@rental.checkout - @rental.return)/1.minutes
+        @rental.delay(run_at: time_delay.minutes.from_now).return
         format.html { redirect_to @rental, notice: 'Rental was successfully created.' }
         format.json { render :show, status: :created, location: @rental }
       else
