@@ -10,10 +10,10 @@
   <%= @customer.name %>
 </p>
 
-<p>
-  <strong>Password:</strong>
-  <%= @customer.password %>
-</p>
+<!--<p>-->
+  <!--<strong>Password:</strong>-->
+  <!--<= @customer.password %>-->
+<!--</p>-->
 
 <% if !current_customer || current_admin || current_superadmin then %>
   <%= button_to 'Checkout History', :action => 'checkout_history', :controller => 'rentals', :customer => @customer.email %>
