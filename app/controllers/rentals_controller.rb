@@ -1,6 +1,5 @@
 class RentalsController < ApplicationController
   before_action :set_rental, only: [:show, :edit, :update, :destroy]
-
   # GET /rentals
   # GET /rentals.json
   def index
@@ -28,7 +27,9 @@ class RentalsController < ApplicationController
 
     respond_to do |format|
       if @rental.save
-        time_delay =(@rental.checkout - @rental.return)/1.minutes
+        datetime1 = DateTime.strptime(@checkout, '%Y-%m-%dT%H:%M')
+        datetime2 = DateTime.strptime(@return, '%Y-%m-%dT%H:%M')
+        time_delay =(datetime2-datetime1)/1.minutes
         @rental.delay(run_at: time_delay.minutes.from_now).return
         format.html { redirect_to @rental, notice: 'Rental was successfully created.' }
         format.json { render :show, status: :created, location: @rental }
@@ -64,11 +65,15 @@ class RentalsController < ApplicationController
   end
 
   def check_reserve_car
-    @customer = current_customer
+    if current_admin or current_superadmin
+      @customer = Customer.where(:email => params[:customer])[0]
+    else
+      @customer = current_customer
+    end
     @previous_rental = Rental.where(:email => @customer.email).last
     puts @previous_rental
-    if @previous_rental.nil? or @previous_rental.status.eql?('Returned') then
-      redirect_to :controller => "rentals", :action => "reserve_car", :license => params[:license]
+    if @previous_rental.nil? or @previous_rental.status.eql?('Returned') or @previous_rental.status.eql?('Cancelled') then
+      redirect_to :controller => "rentals", :action => "reserve_car", :license => params[:license], :email => @customer.email
     else
       redirect_to '/customer_profile'
     end
@@ -79,34 +84,68 @@ class RentalsController < ApplicationController
   end
 
   def reserve_in_db
-    @email = current_customer.email
+    @status=params[:status]
     @license = params[:license]
     @checkout = params[:checkout]
     @return = params[:return]
     @hours = 3
+    @total_time = @return.to_datetime - @checkout.to_datetime
+
     @rental_charge = @hours*Car.where(:license => @license)[0].rate
-    @rental = Rental.new
-    @rental.email= @email
-    @rental.license= @license
-    @rental.checkout= @checkout
-    @rental.return= @return
-    @rental.hours= @hours
-    @rental.rental_charge= @rental_charge
-    @rental.status= 'Reserved'
-    @car = Car.where(:license => @license)[0]
-    @car.status= 'Reserved'
-    @customer = Customer.where(:email => @email)[0]
-    @customer.rental_charge= @rental_charge
-    if @rental.save! and @car.save! and @customer.save!
-      redirect_to :controller => "rentals", :action => "car_reserved", :email => @email, :license => @license,
-                  :checkout => @checkout, :return => @return
+    if current_admin and (!params[:email].nil? or !params[:email].empty?)
+      @email = params[:email]
     else
-      redirect_to '/signup'
+      @email = current_customer.email
+    end
+    datetime1 = DateTime.strptime(@checkout, '%Y-%m-%dT%H:%M')
+    datetime2 = DateTime.strptime(@return, '%Y-%m-%dT%H:%M')
+
+    if @checkout.present? && !(@checkout > DateTime.now && @checkout <DateTime.now+7.days)
+      redirect_to :controller => "rentals", :action => "reserve_car", :license => params[:license], :email => @email, notice: 'You can reserve for a timeline upto next 7 days only'
+    #elsif @checkout.present? && ( (Time.parse(@checkout.to_s) - Time.parse(@return.to_s))/3600 > 1.hour and (Time.parse(@checkout.to_s) - Time.parse(@return.to_s))/3600 < 10.hours)
+    elsif datetime2<datetime1
+      redirect_to :controller => "rentals", :action => "reserve_car", :license =>params[:license], :email => @email, notice: 'Return time cannot be less than checkouttime '
+      elsif !((datetime2 - datetime1).to_i >= 1 and (datetime2 - datetime1).to_i <= 10)
+      redirect_to :controller => "rentals", :action => "reserve_car", :license => params[:license], :email => @email, notice: 'You can reserve for at least one and at most 10 hours'
+    else
+      @rental = Rental.new
+      @rental.email= @email
+      @rental.license= @license
+      @rental.checkout= @checkout
+      @rental.return= @return
+      @rental.hours= @hours
+      @rental.rental_charge= @rental_charge
+      @rental.status= 'Reserved'
+      @car = Car.where(:license => @license)[0]
+      @car.status= 'Reserved'
+      @customer = Customer.where(:email => @email)[0]
+      @customer.rental_charge= @rental_charge
+      if @rental.save! and @car.save! and @customer.save!
+        redirect_to :controller => "rentals", :action => "car_reserved", :email => @email, :license => @license,
+                    :checkout => @checkout, :return => @return
+      end
     end
   end
 
   def car_reserved
     @car = Car.where(:license => params[:license])
+  end
+
+  def cancel_reservation
+    if current_customer
+      @license = Rental.where(:email => Customer.where(:id => session[:customer_id])[0].email).last!.license
+      @rental = Rental.where(:email => Customer.where(:id => session[:customer_id])[0].email).last!
+      Rental.update(@rental.id,:status => "Cancelled")
+      @car = Car.where(:license => @license)[0];
+      Car.update(@car.id, :status => "Available")
+      redirect_to '/customer_profile', notice: 'Cancellation successful.'
+      #@email=current_customer.email
+      #@rentals=Rentals.where(:license => params[:license])
+      #@rentals.destroy_all
+      #@rentals.save!
+      #@car = Car.where(:license => params[:license])
+      #@car.update_attributes(:status,"Available")
+    end
   end
 
   def checkout
@@ -159,6 +198,5 @@ class RentalsController < ApplicationController
     def rental_params
       params.require(:rental).permit(:email, :license, :checkout, :return, :hours, :rental_charge, :status)
     end
-
 
 end

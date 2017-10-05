@@ -26,8 +26,7 @@
         <td><%= car.style %></td>
         <td><%= car.location %></td>
         <td><%= car.status %></td>
-        <td><%= link_to 'Show', car %></td>
-
+        <td><%= link_to 'Reserve Car', car %></td>
         <% if session[:customer_id].nil? || !session[:admin].nil? || !session[:superadmin].nil? then %>
         <td><%= link_to 'Edit', edit_car_path(car) %></td>
         <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>

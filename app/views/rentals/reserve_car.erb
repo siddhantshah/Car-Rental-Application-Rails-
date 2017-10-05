@@ -1,7 +1,23 @@
+<p id="notice"><%=params[:notice] %></p>
+
 <%= form_tag '/reserve_in_db', :method => 'post' do %>
-<h3>Reserve your car</h3>
+<h3>Reserve a car</h3>
 <h3> Car Details</h3>
-<p>
+
+<% if current_admin and (!params[:email].nil? or !params[:email].empty?) %>
+        <p>
+          <strong>Booking on behalf of: </strong>
+          <%= params[:email] %>
+        </p>
+        <%=hidden_field_tag :email, params[:email]%>
+<%end %>
+
+    <p>
+      <strong>License:</strong>
+      <%= @car[0].license %>
+    </p>
+
+    <p>
   <strong>License:</strong>
   <%= @car[0].license %>
 </p>
@@ -38,9 +54,8 @@
 
 <p>
   <strong>Checkout:</strong>
-  <%= datetime_field_tag :checkout %>
+  <%= datetime_field_tag :checkout%>
 </p>
-
 <p>
   <strong>Return:</strong>
   <%= datetime_field_tag :return %>

@@ -1,8 +1,9 @@
 <p id="notice"><%= notice %></p>
-
+<%= form_tag '/check_reserve_car', :method => 'post' do %>
 <p>
   <strong>License:</strong>
   <%= @car.license %>
+  <%= hidden_field_tag :license, @car.license%>
 </p>
 
 <p>
@@ -46,8 +47,15 @@
   <%= link_to 'Back to index', cars_path %>
 <% end %>
 
+<%  if current_admin or current_superadmin %>
+    <p>
+      Reserve this car on behalf of (enter customer e-mail):
+      <%= text_field_tag :customer %>
+    </p>
+<% end %>
 <% if @car.status.to_s.eql?("Available") then%>
-<td> <%= button_to "Reserve", '/check_reserve_car', :method => 'get', params: {license: @car.license} %> </td>
+        <%= submit_tag "Reserve" %>
+<% end %>
 <% end %>
 
 <% if session[:customer_id].nil? || !session[:admin].nil? || !session[:superadmin].nil? then %>

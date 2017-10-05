@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   # Reserve Car
   get '/check_reserve_car' => 'rentals#check_reserve_car'
-  # post '/check_reserve_car' => 'rentals#check_reserve_car'
+  post '/check_reserve_car' => 'rentals#check_reserve_car'
   post '/reserve_car' => 'rentals#reserve_car'
   post '/car_reserved' => 'rentals#car_reserved'
   get '/reserve_car' => 'rentals#reserve_car'
@@ -54,5 +54,8 @@ Rails.application.routes.draw do
   get '/accept_suggestion' => 'suggestions#accept_suggestion'
   get '/view_suggestions' => 'suggestions#view_suggestions'
   post '/accept_in_db' => 'suggestions#accept_in_db'
+
+  get '/cancel_reservation' => 'rentals#cancel_reservation'
+  post '/cancel_reservation' => 'rentals#cancel_reservation'
 
 end

@@ -8,6 +8,9 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
   <body align="center" width="100%" style="margin: 0px">
+  <!--< if flash[:notice] %>
+      <div class="notice"><= flash[:notice] %></div>
+  < end >-->
   <div style="background-color: #F44336; height: 150px">
     <div style="margin: 0px; color:#fff; top:40%; position: relative">
       <div style="display: inline-block; position:absolute; top:0; left:0; float: left">
