@@ -29,6 +29,8 @@
   <tr>
     <td><%= link_to 'Manage Rentals', rentals_path, :method => :get %></td>
     <td><%= link_to 'Manage Suggestions', suggestions_path, :method => :get %></td>
+    <td><%= link_to "Reserve on behalf of customer", '/search_cars'%></td>
+
   </tr>
   <tr>
     <td colspan="2"><%= link_to 'Edit your profile', edit_admin_path(superadmin), :method => :get %></td>
