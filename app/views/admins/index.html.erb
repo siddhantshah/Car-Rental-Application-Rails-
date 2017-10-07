@@ -18,7 +18,9 @@
         <td><%= admin.name %></td>
         <td><%= link_to 'Show', admin %></td>
         <td><%= link_to 'Edit', edit_admin_path(admin) %></td>
-        <td><%= link_to 'Destroy', admin, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if !admin.email.eql? current_admin.email or !admin.email.eql? "admin@admin.com" %>
+          <td> <%= link_to 'Destroy', admin, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

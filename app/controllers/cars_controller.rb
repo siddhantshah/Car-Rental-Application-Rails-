@@ -25,7 +25,6 @@ class CarsController < ApplicationController
   # POST /cars.json
   def create
     @car = Car.new(car_params)
-
     respond_to do |format|
       if @car.save
         format.html { redirect_to @car, notice: 'Car was successfully created.' }
@@ -54,10 +53,20 @@ class CarsController < ApplicationController
   # DELETE /cars/1
   # DELETE /cars/1.json
   def destroy
-    @car.destroy
-    respond_to do |format|
-      format.html { redirect_to cars_url, notice: 'Car was successfully destroyed.' }
-      format.json { head :no_content }
+    rental = Rental.where(:license => @car.license)
+    rental = rental.where(:status => 'Checked out')
+    if !rental.empty?
+      redirect_to cars_url, notice: 'Car has been checked out thus can not deleted until returned.'
+    else
+      rental = Rental.where(:license => @car.license, :status => 'Reserved')
+      rental.each do |r|
+        Rental.update(r.id,:status => "Cancelled")
+      end
+      @car.destroy
+      respond_to do |format|
+        format.html { redirect_to cars_url, notice: 'Car was successfully destroyed and it\'s reservations were cancelled.' }
+        format.json { head :no_content }
+      end
     end
   end
 

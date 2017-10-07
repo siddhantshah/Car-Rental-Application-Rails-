@@ -138,13 +138,16 @@ class RentalsController < ApplicationController
       Rental.update(@rental.id,:status => "Cancelled")
       @car = Car.where(:license => @license)[0];
       Car.update(@car.id, :status => "Available")
-      redirect_to '/customer_profile', notice: 'Cancellation successful.'
-      #@email=current_customer.email
-      #@rentals=Rentals.where(:license => params[:license])
-      #@rentals.destroy_all
-      #@rentals.save!
-      #@car = Car.where(:license => params[:license])
-      #@car.update_attributes(:status,"Available")
+      if(current_customer)
+        redirect_to '/customer_profile', notice: 'Cancellation successful.'
+      end
+      # Nofify users who have subscribed about car availability
+      @emails = Notify.where(:license => @license)
+      @emails.each do |email|
+        UserMailer.notify(email.email,@car).deliver
+        @notify = Notify.find_by_email_and_license(email.email, @car.license)
+        @notify.destroy
+      end
     end
   end
 

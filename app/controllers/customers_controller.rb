@@ -25,16 +25,22 @@ class CustomersController < ApplicationController
   # POST /customers.json
   def create
     @customer = Customer.new(customer_params)
+    if !current_superadmin or !current_admin
+      if @customer.save then
+        session[:customer_id] = @customer.id
+        UserMailer.signup_confirmation(@customer).deliver
+        redirect_to root_path
+      end
+    else
     respond_to do |format|
       if @customer.save
-        # session[:customer_id] = @customer.id
-        UserMailer.signup_confirmation(@customer).deliver
-        format.html { redirect_to @customer, notice: 'Customer was successfully created.' }
-        format.json { render :show, status: :created, location: @customer }
+          format.html { redirect_to @customer, notice: 'Customer was successfully created.' }
+          format.json { render :show, status: :created, location: @customer }
       else
         format.html { render :new }
         format.json { render json: @customer.errors, status: :unprocessable_entity }
       end
+    end
     end
   end
 
@@ -55,10 +61,29 @@ class CustomersController < ApplicationController
   # DELETE /customers/1
   # DELETE /customers/1.json
   def destroy
-    @customer.destroy
-    respond_to do |format|
-      format.html { redirect_to customers_url, notice: 'Customer was successfully destroyed.' }
-      format.json { head :no_content }
+    rental = Rental.where(:email => @customer.email).last!
+    if !rental.empty?
+      if rental.status.eql? "Checked out"
+        redirect_to customers_url, notice: 'Customer has checked out a car and thus can not deleted until the car is returned.'
+      else
+        @customer.destroy
+        if rental.status.eql? "Reserved"
+          Rental.update(rental.id,:status => "Cancelled")
+          car = Car.where(:license => rental.license)[0]
+          Car.update(car.id, :status => "Available")
+          # Nofify users who have subscribed about car availability
+          @emails = Notify.where(:license => rental.license)
+          @emails.each do |email|
+            UserMailer.notify(email.email,car).deliver
+            @notify = Notify.find_by_email_and_license(email.email, car.license)
+            @notify.destroy
+          end
+        end
+        respond_to do |format|
+          format.html { redirect_to customers_url, notice: 'Customer was deleted, but it\'s rental history is preserved.' }
+          format.json { head :no_content }
+        end
+      end
     end
   end
 

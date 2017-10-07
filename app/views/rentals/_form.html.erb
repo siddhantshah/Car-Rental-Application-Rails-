@@ -43,7 +43,7 @@
 
   <div class="field">
     <%= form.label :status %>
-    <%= form.text_field :status, id: :rental_status %>
+    <%= form.select :status, ['Reserved', 'Checked out', 'Returned', 'Cancelled'], id: :rental_status %>
   </div>
 
   <div class="actions">

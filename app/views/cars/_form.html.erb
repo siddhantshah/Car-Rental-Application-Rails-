@@ -43,11 +43,10 @@
 
   <div class="field">
     <%= form.label :status %>
-    <%= form.text_field :status, id: :car_status %>
+    <%= form.select :status, ['Available'], id: :car_status%>
   </div>
 
   <div class="actions">
     <%= form.submit %>
   </div>
-    <h1>RETURN BUTTON!!!! admin returning on behalf of customer</h1>
 <% end %>
