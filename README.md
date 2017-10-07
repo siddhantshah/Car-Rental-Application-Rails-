@@ -15,6 +15,9 @@ This application has been deployed on [Heroku](http://rentonecar.herokuapp.com/)
 
 
 ## Site Navigation
+
+_**While reviewing the website, do not delete these default login ID's to test the delete functionality, as this effects other reviews which we receive.**_
+
 1. Superadmin
 Login with superadmin credentials (Ex: email: 'super@super.com', password: 'super123')
 
