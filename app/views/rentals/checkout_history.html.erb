@@ -25,8 +25,10 @@
         <td><%= rental.rental_charge %></td>
         <td><%= rental.status %></td>
         <td><%= link_to 'Show', rental %></td>
-        <td><%= link_to 'Edit', edit_rental_path(rental) %></td>
-        <td><%= link_to 'Destroy', rental, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <%if !current_customer and (current_admin or current_superadmin) then%>
+            <td><%= link_to 'Edit', edit_rental_path(rental) %></td>
+            <td><%= link_to 'Destroy', rental, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <%end%>
       </tr>
   <% end %>
   </tbody>
