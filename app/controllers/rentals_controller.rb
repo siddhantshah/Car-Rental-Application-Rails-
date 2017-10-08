@@ -88,7 +88,9 @@ class RentalsController < ApplicationController
     @license = params[:license]
     @checkout = params[:checkout]
     @return = params[:return]
-    @hours = 3
+    datetime1 = DateTime.strptime(@checkout, '%Y-%m-%dT%H:%M')
+    datetime2 = DateTime.strptime(@return, '%Y-%m-%dT%H:%M')
+    @hours = datetime2.hour.to_i - datetime1.hour.to_i
     @total_time = @return.to_datetime - @checkout.to_datetime
 
     @rental_charge = @hours*Car.where(:license => @license)[0].rate
@@ -97,15 +99,13 @@ class RentalsController < ApplicationController
     else
       @email = current_customer.email
     end
-    datetime1 = DateTime.strptime(@checkout, '%Y-%m-%dT%H:%M')
-    datetime2 = DateTime.strptime(@return, '%Y-%m-%dT%H:%M')
 
+    puts "DATETIME" << datetime2.hour.to_i.to_s << "   " << datetime1.to_i.to_s
     if @checkout.present? && !(@checkout > DateTime.now && @checkout <DateTime.now+7.days)
       redirect_to :controller => "rentals", :action => "reserve_car", :license => params[:license], :email => @email, notice: 'You can reserve for a timeline upto next 7 days only'
-    #elsif @checkout.present? && ( (Time.parse(@checkout.to_s) - Time.parse(@return.to_s))/3600 > 1.hour and (Time.parse(@checkout.to_s) - Time.parse(@return.to_s))/3600 < 10.hours)
     elsif datetime2<datetime1
       redirect_to :controller => "rentals", :action => "reserve_car", :license =>params[:license], :email => @email, notice: 'Return time cannot be less than checkouttime '
-      elsif !((datetime2 - datetime1).to_i >= 1 and (datetime2 - datetime1).to_i <= 10)
+    elsif !((datetime2.hour.to_i - datetime1.hour.to_i) >= 1 and (datetime2.hour.to_i - datetime1.hour.to_i).to_i <= 10)
       redirect_to :controller => "rentals", :action => "reserve_car", :license => params[:license], :email => @email, notice: 'You can reserve for at least one and at most 10 hours'
     else
       @rental = Rental.new
