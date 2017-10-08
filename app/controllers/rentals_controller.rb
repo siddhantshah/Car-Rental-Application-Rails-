@@ -153,9 +153,9 @@ class RentalsController < ApplicationController
     if(current_admin || current_superadmin)
       session[:customer_id] = nil
       if(current_admin)
-        redirect_to '/admin_profile', notice: 'Returned successfully'
+        redirect_to '/admin_profile', notice: 'Cancellation successful.'
       elsif(current_superadmin)
-        redirect_to '/superadmin_profile', notice: 'Returned successfully'
+        redirect_to '/superadmin_profile', notice: 'Cancellation successful.'
       end
     end
   end
@@ -166,12 +166,16 @@ class RentalsController < ApplicationController
     @car = Car.where(:license => @rental.license)[0];
     Car.update(@car.id, :status => "Checked out")
 
+    if(current_customer)
+      redirect_to '/customer_profile', notice: 'Checked out successfully'
+    end
+
     if(current_admin || current_superadmin)
       session[:customer_id] = nil
       if(current_admin)
-        redirect_to '/admin_profile', notice: 'Returned successfully'
+        redirect_to '/admin_profile', notice: 'Checked out successfully'
       elsif(current_superadmin)
-        redirect_to '/superadmin_profile', notice: 'Returned successfully'
+        redirect_to '/superadmin_profile', notice: 'Checked out successfully'
       end
     end
   end

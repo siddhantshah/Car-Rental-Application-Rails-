@@ -41,7 +41,8 @@
       <td><%= button_to 'Edit Profile', edit_customer_path(customer), :method => :get %></td>
       <td><%= button_to 'Suggest Car', new_suggestion_path, :method => :get %></td>
     </table>
-<% else %>
+
+<% elsif (current_admin || current_superadmin) %>
     <% @current_rental = Rental.where(:email => customer.email).last%>
     <table>
     <% if !@current_rental.nil? then %>
