@@ -31,7 +31,7 @@ Login with customer credentials (Ex: email: 'customer@customer.com', password: '
 
 CUSTOMER FUNCTIONALITIES WORK FLOW:
 
-Login functionality:
+**Login functionality:**
 1) Enter username
 2) Enter password
 3) Click on Sign-in
@@ -40,30 +40,30 @@ The landing page will be the user's profile. There are 4 buttons.
 
 The Edit profile button is available for the user to edit his profile.
 
-Search for a Car:
+**Search for a Car:**
 1) Click on Search for a Car button.
 2) The landing page is the search_cars landing page,where you can search by Location, Manufacturer, Style, etc.
 3) To view car deatils, click on "Car details" button.
 4) If the car is available for reservation,click on "Reserve".
 
-Reserve a Car (after searching for it):
+**Reserve a Car (after searching for it):**
 1) The reserve_car URL is launched, where you can enter the checkout time and return time. 
 2) If the checkout time or return time is invalid, error messages will be thrown accordingly.
 3) Click on reserve. If the reservation is successful, the same gets reflected in the database and will be 
 displayed to you in the car_reserved view.
 
-View Checkout History:
+**View Checkout History:**
 1) Click on my profile button in the above view.
 2) Click on Checkout History button.
 3) The checkout_history view opens, the details of the car that your reserved is seen.
 
-Cancel reservation:
+**Cancel reservation:**
 1) Navigate to "My Profile".
 2) Click on cancel reservation button.
 3) The cancellation will be successful. Nagivate to checkout history and verify if the status of your
 reservation is cancelled.
 
-Suggest Car:
+**Suggest Car:**
 1) To suggest a car, click on "Suggest Car" button in my profile.
 2) Enter location , manufacturer,model,style.
 3) Click on "create suggestion"
@@ -79,9 +79,9 @@ by entering a License Number and rate.
 ADMIN FUNCTIONALITIES WORKFLOW:
 
 1) View/Manage cars
-  admin can reserve available cars, or edit car details or destroy details 
+  Admin can reserve available cars, or edit car details or destroy details 
 2) View/Manage Customers
-  admin can view/edit/ remove customer records.
+  Admin can view/edit/ remove customer records.
 3) View/Manage admins
   To add new admins/modify existing ones.
 4) View/manage rentals
