@@ -53,13 +53,12 @@ class CarsController < ApplicationController
   # DELETE /cars/1
   # DELETE /cars/1.json
   def destroy
-    rental = Rental.where(:license => @car.license)
-    rental = rental.where(:status => 'Checked out')
-    if !rental.empty?
-      redirect_to cars_url, notice: 'Car has been checked out thus can not deleted until returned.'
+    @rental = Rental.where(:license => @car.license, :status => 'Checked out')
+    if !@rental.empty?
+      redirect_to cars_url, notice: 'Car has been checked out thus can not be deleted until returned.'
     else
-      rental = Rental.where(:license => @car.license, :status => 'Reserved')
-      rental.each do |r|
+      @rental = Rental.where(:license => @car.license, :status => 'Reserved')
+      @rental.each do |r|
         Rental.update(r.id,:status => "Cancelled")
       end
       @car.destroy

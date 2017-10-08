@@ -61,13 +61,15 @@ class CustomersController < ApplicationController
   # DELETE /customers/1
   # DELETE /customers/1.json
   def destroy
-    rental = Rental.where(:email => @customer.email).last!
+    rental = Rental.where(:email => @customer.email)
     if !rental.empty?
+      rental = rental.last!
       if rental.status.eql? "Checked out"
         redirect_to customers_url, notice: 'Customer has checked out a car and thus can not deleted until the car is returned.'
-      else
+      end
+    else
         @customer.destroy
-        if rental.status.eql? "Reserved"
+        if !rental.empty? and rental.status.eql? "Reserved"
           Rental.update(rental.id,:status => "Cancelled")
           car = Car.where(:license => rental.license)[0]
           Car.update(car.id, :status => "Available")
@@ -85,7 +87,6 @@ class CustomersController < ApplicationController
         end
       end
     end
-  end
 
   def profile
     @customer = Customer.where(:id => session[:customer_id])

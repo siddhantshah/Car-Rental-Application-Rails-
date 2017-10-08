@@ -2,4 +2,6 @@
 
 <%= render 'form', superadmin: @superadmin %>
 
+<% if current_admin || current_superadmin %>
 <%= link_to 'Back', superadmins_path %>
+<% end %>

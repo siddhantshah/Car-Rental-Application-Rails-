@@ -2,4 +2,6 @@
 
 <%= render 'form', car: @car %>
 
+<% if current_admin || current_superadmin %>
 <%= link_to 'Back', cars_path %>
+<% end %>
