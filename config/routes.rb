@@ -28,6 +28,10 @@ Rails.application.routes.draw do
   post '/checkout_history' => 'rentals#checkout_history'
   post '/notify_email' => 'customers#notify_email'
 
+  # Admin Functionality
+  get '/modify_reservation' => 'rentals#modify_reservation'
+  post '/redirect_to_customer' => 'customers#redirect_to_customer'
+
   # Session
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'

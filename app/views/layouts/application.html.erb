@@ -23,12 +23,12 @@
               <%= button_to "Sign Out", '/destroy_session', :method => :post %>
                     </td>
               <td>
-                <% if current_customer %>
-                   <%= button_to "My Profile", '/customer_profile', :method => :post %>
+                <% if current_superadmin %>
+                   <%= button_to "My Profile", '/superadmin_profile', :method => :post %>
                 <% elsif current_admin %>
                    <%= button_to "My Profile", '/admin_profile', :method => :post %>
                 <% else %>
-                   <%= button_to "My Profile", '/superadmin_profile', :method => :post %>
+                   <%= button_to "My Profile", '/customer_profile', :method => :post %>
                 <% end %>
               </td>
           </table>

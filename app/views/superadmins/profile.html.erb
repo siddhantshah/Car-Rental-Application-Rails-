@@ -1,4 +1,7 @@
-<h1>MY PROFILE</h1>
+<p id="notice"><%= notice %></p>
+<% session[:customer] = nil%>
+<br>
+<h1>PROFILE</h1>
 
 <table>
   <thead>
@@ -19,20 +22,29 @@
 <br>
 <table>
   <tr>
-    <td><%= link_to 'View/Manage Admins', admins_path, :method => :get %></td>
-    <td><%= link_to 'View/Manage Superadmins', superadmins_path, :method => :get%></td>
-  </tr>
-  <tr>
-    <td><%= link_to 'View/Manage Customers', customers_path, :method => :get %></td>
     <td><%= link_to 'View/Manage Cars', cars_path, :method => :get %></td>
   </tr>
   <tr>
-    <td><%= link_to 'View/Manage Rentals', rentals_path, :method => :get %></td>
-    <td><%= link_to 'View/Manage Suggestions', suggestions_path, :method => :get %></td>
-    <td><%= link_to "Reserve on behalf of customer", '/search_cars'%></td>
-
+    <td><%= link_to 'View/Manage Customers', customers_path, :method => :get %></td>
   </tr>
   <tr>
+    <td><%= link_to 'View/Manage Admins', admins_path, :method => :get %></td>
+  </tr>
+  <tr>
+    <td><%= link_to 'View/Manage Superadmins', superadmins_path, :method => :get%></td>
+  </tr>
+  <tr>
+    <td><%= link_to 'View/Manage Rentals', rentals_path, :method => :get %></td>
+  </tr>
+  <tr>
+    <td><%= link_to 'View/Manage Suggestions', suggestions_path, :method => :get %></td>
+  </tr>
+  <tr>
+    <td><%= link_to "Reserve on behalf of customer", '/search_cars'%></td>
+  </tr>
+  <tr>
+    <td><%= link_to "Modify reservation (checkout/return/cancel) on behalf of customer", '/modify_reservation'%></td>
+  </tr>
     <td colspan="2"><%= link_to 'Edit your profile', edit_admin_path(superadmin), :method => :get %></td>
   </tr>
 </table>

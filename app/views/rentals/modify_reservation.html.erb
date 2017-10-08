@@ -1,0 +1,12 @@
+<p id="notice"><%= notice %></p>
+
+<h3> Modify reservation</h3>
+<br><br>
+<%= form_tag '/redirect_to_customer', :method => 'post' do %>
+    <p>
+      <strong>Enter email of customer you wish to modify the reservation of: </strong>
+      <%= text_field_tag :email %>
+    </p>
+    <br><br>
+    <%= submit_tag "Submit" %>
+<% end %>

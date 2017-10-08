@@ -101,6 +101,24 @@ class CustomersController < ApplicationController
     @notify.save!
   end
 
+  def redirect_to_customer
+    @customer = Customer.find_by_email(params[:email])
+    if @customer.nil? then
+      redirect_to '/modify_reservation', notice: "No such customer found! Enter valid customer email"
+    else
+      @rental = Rental.where(:email => params[:email])
+      @active_rental = @rental.where.not(:status => "Returned")
+      @active_rental = @active_rental.where.not(:status => "Cancelled")
+      if @active_rental.empty?
+        redirect_to '/modify_reservation', notice: "No active rentals of this customer found!"
+      else
+        @customer = Customer.find_by_email(params[:email])
+        session[:customer_id] = @customer.id
+        redirect_to '/customer_profile'
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_customer

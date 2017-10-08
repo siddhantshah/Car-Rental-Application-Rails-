@@ -1,65 +1,68 @@
 <p id="notice"><%= notice %></p>
 <%= form_tag '/check_reserve_car', :method => 'post' do %>
-<p>
-  <strong>License:</strong>
-  <%= @car.license %>
-  <% puts "Car license = " << @car.license; @license = @car.license; %>
-  <%= hidden_field_tag :license, @car.license%>
-</p>
+  <p>
+    <strong>License:</strong>
+    <%= @car.license %>
+    <% puts "Car license = " << @car.license; @license = @car.license; %>
+    <%= hidden_field_tag :license, @car.license%>
+  </p>
 
-<p>
-  <strong>Manufacturer:</strong>
-  <%= @car.manufacturer %>
-</p>
+  <p>
+    <strong>Manufacturer:</strong>
+    <%= @car.manufacturer %>
+  </p>
 
-<p>
-  <strong>Model:</strong>
-  <%= @car.model %>
-</p>
+  <p>
+    <strong>Model:</strong>
+    <%= @car.model %>
+  </p>
 
-<p>
-  <strong>Rate:</strong>
-  <%= @car.rate %>
-</p>
+  <p>
+    <strong>Rate:</strong>
+    <%= @car.rate %>
+  </p>
 
-<p>
-  <strong>Style:</strong>
-  <%= @car.style %>
-</p>
+  <p>
+    <strong>Style:</strong>
+    <%= @car.style %>
+  </p>
 
-<p>
-  <strong>Location:</strong>
-  <%= @car.location %>
-</p>
+  <p>
+    <strong>Location:</strong>
+    <%= @car.location %>
+  </p>
 
-<p>
-  <strong>Status:</strong>
-  <%= @car.status %>
-</p>
+  <p>
+    <strong>Status:</strong>
+    <%= @car.status %>
+  </p>
 
-<% if (!current_customer && (current_admin || current_superadmin)) && (@car.status != 'Available')  then %>
-<p>
-  <strong>Car Booked By:</strong>
-  <%puts Rental.where(:license => @car.license).last!%>
-</p>
-<% end %>
+  <% if (!current_customer && (current_admin || current_superadmin)) && (@car.status != 'Available')  then %>
+  <p>
+    <strong>Car Booked By:</strong>
+    <%= Rental.where(:license => @car.license).last!.email%>
+  </p>
+  <% end %>
 
-<% if session[:customer_id].nil? || !session[:admin].nil? || !session[:superadmin].nil? then %>
-  <%= link_to 'Edit', edit_car_path(@car) %>
-  <%= link_to 'Back to index', cars_path %>
-<% end %>
+  <%  if current_admin or current_superadmin %>
+      <p>
+        Reserve this car on behalf of (enter customer e-mail):
+        <%= text_field_tag :customer %>
+      </p>
+  <% end %>
 
-<%  if current_admin or current_superadmin %>
-    <p>
-      Reserve this car on behalf of (enter customer e-mail):
-      <%= text_field_tag :customer %>
-    </p>
-<% end %>
-<% if @car.status.to_s.eql?("Available") then%>
-        <%= submit_tag "Reserve" %>
-<% end %>
-<% end %>
+  <% if @car.status.to_s.eql?("Available") then%>
+          <%= submit_tag "Reserve" %>
+  <% end %>
+  <% end %>
 
-<% if session[:customer_id].nil? || !session[:admin].nil? || !session[:superadmin].nil? then %>
-<%= button_to "Checkout History", '/checkout_history', :method => 'post',params: {license: @car.license} %>
-<% end %>
+  <br>
+  <% if session[:customer_id].nil? || !session[:admin].nil? || !session[:superadmin].nil? then %>
+  <%= button_to "Checkout History", '/checkout_history', :method => 'post',params: {license: @car.license} %>
+  <% end %>
+  <br>
+
+  <% if session[:customer_id].nil? || !session[:admin].nil? || !session[:superadmin].nil? then %>
+      <%= link_to 'Edit', edit_car_path(@car) %>
+      <%= link_to 'Back to index', cars_path %>
+  <% end %>

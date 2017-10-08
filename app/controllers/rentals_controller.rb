@@ -99,8 +99,6 @@ class RentalsController < ApplicationController
     else
       @email = current_customer.email
     end
-
-    puts "DATETIME" << datetime2.hour.to_i.to_s << "   " << datetime1.to_i.to_s
     if @checkout.present? && !(@checkout > DateTime.now && @checkout <DateTime.now+7.days)
       redirect_to :controller => "rentals", :action => "reserve_car", :license => params[:license], :email => @email, notice: 'You can reserve for a timeline upto next 7 days only'
     elsif datetime2<datetime1
@@ -138,15 +136,26 @@ class RentalsController < ApplicationController
       Rental.update(@rental.id,:status => "Cancelled")
       @car = Car.where(:license => @license)[0];
       Car.update(@car.id, :status => "Available")
-      if(current_customer)
-        redirect_to '/customer_profile', notice: 'Cancellation successful.'
-      end
-      # Nofify users who have subscribed about car availability
+
+      # Notify users who have subscribed about car availability
       @emails = Notify.where(:license => @license)
       @emails.each do |email|
         UserMailer.notify(email.email,@car).deliver
         @notify = Notify.find_by_email_and_license(email.email, @car.license)
         @notify.destroy
+      end
+    end
+
+    if(current_customer)
+      redirect_to '/customer_profile', notice: 'Cancellation successful.'
+    end
+
+    if(current_admin || current_superadmin)
+      session[:customer_id] = nil
+      if(current_admin)
+        redirect_to '/admin_profile', notice: 'Returned successfully'
+      elsif(current_superadmin)
+        redirect_to '/superadmin_profile', notice: 'Returned successfully'
       end
     end
   end
@@ -156,6 +165,15 @@ class RentalsController < ApplicationController
     Rental.update(@rental.id, :status => "Checked out")
     @car = Car.where(:license => @rental.license)[0];
     Car.update(@car.id, :status => "Checked out")
+
+    if(current_admin || current_superadmin)
+      session[:customer_id] = nil
+      if(current_admin)
+        redirect_to '/admin_profile', notice: 'Returned successfully'
+      elsif(current_superadmin)
+        redirect_to '/superadmin_profile', notice: 'Returned successfully'
+      end
+    end
   end
 
   def checkout_history
@@ -181,12 +199,25 @@ class RentalsController < ApplicationController
       @car = Car.where(:license => @license)[0];
       Car.update(@car.id, :status => "Available")
 
-      # Nofify users who have subscribed about car availability
+      # Notify users who have subscribed about car availability
       @emails = Notify.where(:license => @license)
       @emails.each do |email|
         UserMailer.notify(email.email,@car).deliver
         @notify = Notify.find_by_email_and_license(email.email, @car.license)
         @notify.destroy
+      end
+    end
+
+    if(current_customer)
+      redirect_to '/customer_profile', notice: 'Returned successfully'
+    end
+
+    if(current_admin || current_superadmin)
+      session[:customer_id] = nil
+      if(current_admin)
+        redirect_to '/admin_profile', notice: 'Returned successfully'
+      elsif(current_superadmin)
+        redirect_to '/superadmin_profile', notice: 'Returned successfully'
       end
     end
   end
