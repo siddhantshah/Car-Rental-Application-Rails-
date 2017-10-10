@@ -139,10 +139,12 @@ class RentalsController < ApplicationController
 
       # Notify users who have subscribed about car availability
       @emails = Notify.where(:license => @license)
-      @emails.each do |email|
-        UserMailer.notify(email.email,@car).deliver
-        @notify = Notify.find_by_email_and_license(email.email, @car.license)
-        @notify.destroy
+      if(!@emails.empty?)
+        @emails.each do |email|
+          UserMailer.notify(email.email,@car).deliver
+          @notify = Notify.find_by_email_and_license(email.email, @car.license)
+          @notify.destroy
+        end
       end
     end
 
@@ -205,10 +207,12 @@ class RentalsController < ApplicationController
 
       # Notify users who have subscribed about car availability
       @emails = Notify.where(:license => @license)
-      @emails.each do |email|
-        UserMailer.notify(email.email,@car).deliver
-        @notify = Notify.find_by_email_and_license(email.email, @car.license)
-        @notify.destroy
+      if(!@emails.empty?)
+        @emails.each do |email|
+          UserMailer.notify(email.email,@car).deliver
+          @notify = Notify.find_by_email_and_license(email.email, @car.license)
+          @notify.destroy
+        end
       end
     end
 
