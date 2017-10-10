@@ -26,7 +26,6 @@
     <table>
       <td><%= button_to 'Search for a car' , :action => 'search_cars', :controller =>'cars'%></td>
       <% @current_rental = Rental.where(:email => customer.email).last%>
-      <% puts "@current_rental.status = " << @current_rental.status.to_s%>
       <% if !@current_rental.nil? then %>
           <% if @current_rental.status.eql?("Reserved") then %>
               <!--and Time.now>@current_rental.checkout and Time.now<@current_rental.return-->
