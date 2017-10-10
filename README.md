@@ -42,7 +42,7 @@ The Edit profile button is available for the user to edit his profile.
 
 **Search for a Car:**
 1) Click on Search for a Car button.
-2) The landing page is the search_cars landing page,where you can search by Location, Manufacturer, Style, etc.
+2) The landing page is the search_cars landing page,where you can search by Location, Manufacturer, Style, etc. The search is case sensitive.
 3) To view car deatils, click on "Car details" button.
 4) If the car is available for reservation,click on "Reserve".
 
